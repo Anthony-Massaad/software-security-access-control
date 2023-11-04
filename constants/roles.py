@@ -8,3 +8,4 @@ class Roles(Enum):
     INVESTMENT_ANALYST = "Investment Analyst"
     FINANCIAL_PLANNER = "Financial Planner"
     TECHNICAL_SUPPORT = "Technical Support"
+    TELLER = "Teller"

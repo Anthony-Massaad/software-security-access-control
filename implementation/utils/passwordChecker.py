@@ -1,6 +1,6 @@
 import re
 
-class Password:
+class PasswordChecker:
     # in regex, \d is any digit from 0 to 9, so match any numeric digit
     # .*? indicates match any character before the specified statement
     # Initial pattern for the password complexity requirements
@@ -27,34 +27,34 @@ class Password:
         return valid_pattern and not invalid_format and not eq_username_password and not is_common_password
 
 
-if __name__ == "__main__":
-    # testing purposes
-    print("Password main Testing")
-    password = "hD53dj!85"
-    password2 = "hD53dj@85224fgsdaf"
-    password3 = "hD53dj @85"
-    password4 = "hD53dj85"
-    password5 = "hDddsdj@pp"
-    password6 = "hd53dj@85"
-    password7 = "hj!85"
-    userid = "Tony2@859!"
-    password8 = "Tony2@859!"
-    pro1 = "Tony@03/3/22"
-    pro2 = "KXx123"
-    pro3 = "T6132225555"
-    common = "PaASsword@1"
-    common2 = "paassword@1"
+# if __name__ == "__main__":
+#     # testing purposes
+#     print("Password main Testing")
+#     password = "hD53dj!85"
+#     password2 = "hD53dj@85224fgsdaf"
+#     password3 = "hD53dj @85"
+#     password4 = "hD53dj85"
+#     password5 = "hDddsdj@pp"
+#     password6 = "hd53dj@85"
+#     password7 = "hj!85"
+#     userid = "Tony2@859!"
+#     password8 = "Tony2@859!"
+#     pro1 = "Tony@03/3/22"
+#     pro2 = "KXx123"
+#     pro3 = "T6132225555"
+#     common = "PaASsword@1"
+#     common2 = "paassword@1"
 
-    print("Valid password: ", Password.valid_password("any", password))
-    print("Invalid password with too many characters: ", Password.valid_password("a", password2))
-    print("Invalid password with whitespace: ", Password.valid_password("a", password3))
-    print("Invalid password with no special characters: ", Password.valid_password("a", password4))
-    print("Invalid password with no numbers: ", Password.valid_password("a", password5))
-    print("Invalid password with no uppercase: ", Password.valid_password("a", password6))
-    print("Invalid password with too little characters: ", Password.valid_password("a", password7))
-    print("Invalid password with the same userID: ", Password.valid_password(userid, password8))
-    print("Invalid password with date format: ", Password.valid_password(userid, pro1))
-    print("Invalid password with license plate: ", Password.valid_password(userid, pro2))
-    print("Invalid password with phonenumber: ", Password.valid_password(userid, pro3))
-    print("Invalid password with common password 1: ", Password.valid_password(userid, common))
-    print("Invalid password with common password 2: ", Password.valid_password(userid, common2))
+#     print("Valid password: ", PasswordChecker.valid_password("any", password))
+#     print("Invalid password with too many characters: ", PasswordChecker.valid_password("a", password2))
+#     print("Invalid password with whitespace: ", PasswordChecker.valid_password("a", password3))
+#     print("Invalid password with no special characters: ", PasswordChecker.valid_password("a", password4))
+#     print("Invalid password with no numbers: ", PasswordChecker.valid_password("a", password5))
+#     print("Invalid password with no uppercase: ", PasswordChecker.valid_password("a", password6))
+#     print("Invalid password with too little characters: ", PasswordChecker.valid_password("a", password7))
+#     print("Invalid password with the same userID: ", PasswordChecker.valid_password(userid, password8))
+#     print("Invalid password with date format: ", PasswordChecker.valid_password(userid, pro1))
+#     print("Invalid password with license plate: ", PasswordChecker.valid_password(userid, pro2))
+#     print("Invalid password with phonenumber: ", PasswordChecker.valid_password(userid, pro3))
+#     print("Invalid password with common password 1: ", PasswordChecker.valid_password(userid, common))
+#     print("Invalid password with common password 2: ", PasswordChecker.valid_password(userid, common2))
