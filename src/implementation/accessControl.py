@@ -1,7 +1,16 @@
+from __future__ import annotations # necessary to use TYPE_CHECKING with annotations and not strings
 from src.implementation.role import Role
 from src.implementation.constants.roles import Roles
 from src.implementation.constants.permisions import user_permissions
+from src.implementation.constants.actions import Actions
+from src.implementation.constants.permisions import Permissions
+from typing import TYPE_CHECKING
 from datetime import datetime
+
+if TYPE_CHECKING:
+    # required for typing without circular imports
+    # A special constant that is assumed to be True by 3rd party static type checkers. It is False at runtime.
+    from src.implementation.user import User
 
 # we will be using RBAC to handle role accessing 
 # we will also be using ABAC to handle operational control handling for the Teller
@@ -33,7 +42,7 @@ class AccessControl:
         return None
 
     @classmethod
-    def enforce_ABAC(cls, user) -> bool:
+    def enforce_ABAC(cls, user: User) -> bool:
         curr_time = datetime.now()
         curr_hour = curr_time.hour
         if user.role.role == Roles.TELLER:
@@ -44,7 +53,7 @@ class AccessControl:
         return True
 
     @classmethod
-    def perform_access_control_policy(cls, user, action, permission) -> bool: 
+    def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool: 
         if (user.role.has_permision(action, permission)):
             return True
         return False

@@ -7,8 +7,6 @@ from src.implementation.constants.actions import Actions
 from datetime import datetime
 
 class TestAccessControl(unittest.TestCase):
-    print("Testing AccessControl class")
-    print("---------------------------")
 
     def test_valid_grant_role(self) -> None:
         print("testing grant_role(...) by passing valid roles:")
