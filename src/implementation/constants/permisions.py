@@ -1,5 +1,5 @@
-from constants.roles import Roles
-from constants.actions import Actions
+from src.implementation.constants.roles import Roles
+from src.implementation.constants.actions import Actions
 from enum import Enum
 
 class Permissions(Enum):

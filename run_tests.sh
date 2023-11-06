@@ -1,0 +1,1 @@
+python -m unittest src/tests/test_*.py

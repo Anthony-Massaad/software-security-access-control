@@ -1,10 +1,7 @@
-from implementation.role import Role
-from implementation.user import User
-from constants.roles import Roles
-from constants.permisions import user_permissions, Permissions
-from constants.actions import Actions
+from src.implementation.role import Role
+from src.implementation.constants.roles import Roles
+from src.implementation.constants.permisions import user_permissions
 from datetime import datetime
-from sys import exit
 
 # we will be using RBAC to handle role accessing 
 # we will also be using ABAC to handle operational control handling for the Teller
@@ -23,7 +20,7 @@ class AccessControl:
     __accountAccessGranted = []
     
     @classmethod
-    def grantRole(cls, role: Roles) -> Role:
+    def grant_role(cls, role: Roles) -> Role:
         if role == Roles.REGULAR_CLIENT: return cls.__regular_client_role
         elif role == Roles.PREMIUM_CLIENT: return cls.__premium_client_role
         elif role == Roles.FINANCIAL_ADVISOR: return cls.__financial_advisor_role
@@ -32,12 +29,11 @@ class AccessControl:
         elif role == Roles.TELLER: return cls.__teller_role
         elif role == Roles.TECHNICAL_SUPPORT: return cls.__technical_support_role
         elif role == Roles.COMPLIANCE_OFFICER: return cls.__compliance_officer_role
-        
         print("[ERROR] Could not determine Role")
-        exit(1)
+        return None
 
     @classmethod
-    def enforce_ABAC(cls, user: User) -> bool:
+    def enforce_ABAC(cls, user) -> bool:
         curr_time = datetime.now()
         curr_hour = curr_time.hour
         if user.role.role == Roles.TELLER:
@@ -48,9 +44,7 @@ class AccessControl:
         return True
 
     @classmethod
-    def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool: 
+    def perform_access_control_policy(cls, user, action, permission) -> bool: 
         if (user.role.has_permision(action, permission)):
-            print("ACCCESS GRANTED")
             return True
-        print("No Access")
         return False
