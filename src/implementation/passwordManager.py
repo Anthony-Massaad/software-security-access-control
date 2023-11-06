@@ -44,26 +44,27 @@ class PasswordManager:
         if not cls.valid_password(username, password):
             # password failed the check
             return False
+        
         salt = secrets.token_bytes(16)
         salt_string = base64.b64encode(salt).decode()
         hash_string = cls.__hash_password(password, salt_string)
         record = f"{username} : {salt_string} : {hash_string} : {role} : {name} : {email} : {phone}"
 
-        if not os.path.isfile(cls.__file_path):
+        if not os.path.exists(cls.__file_path):
             # File doesn't exist, create it and append the record
-            with open(cls.__file_path, 'w') as file:
-                file.write(record + '\n')
-        else:
-            # file already exists, append the new record
-            with open(cls.__file_path, 'a') as file:
-                file.write(record + '\n')
+            f = open(cls.__file_path, "x").close()
+            # with open(cls.__file_path, 'w') as file:
+            #     file.write(record + '\n')
+
+        with open(cls.__file_path, 'a') as file:
+            file.write(record + '\n')
 
         # successfully added record
         return True
     
     @classmethod
     def retrieve_record(cls, username: str, passowrd: str) -> User:
-        if os.path.isfile(cls.__file_path):
+        if os.path.exists(cls.__file_path):
             with open(cls.__file_path, 'r') as pass_file:
                 for data in pass_file:
                     split_data = data.split(" : ")

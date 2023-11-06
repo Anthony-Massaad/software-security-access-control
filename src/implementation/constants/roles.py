@@ -9,6 +9,10 @@ class Roles(Enum):
     FINANCIAL_PLANNER = "Financial Planner"
     TECHNICAL_SUPPORT = "Technical Support"
     TELLER = "Teller"
+    
+    @classmethod
+    def to_string(cls) -> str:
+        return ', '.join(member.value for member in cls)
 
     @classmethod
     def get_role_by_name(cls, role: str):
