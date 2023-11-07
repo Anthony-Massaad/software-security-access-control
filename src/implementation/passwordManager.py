@@ -5,6 +5,7 @@ import os
 import re
 from src.implementation.user import User
 from src.implementation.constants.roles import Roles
+from typing import Union
 
 # bcrypt is designed to be slow and is community maintained
 # hashlib is python maintained and faster
@@ -63,7 +64,7 @@ class PasswordManager:
         return True
     
     @classmethod
-    def retrieve_record(cls, username: str, passowrd: str) -> User:
+    def retrieve_record(cls, username: str, passowrd: str) -> Union[User, None]:
         if os.path.exists(cls.__file_path):
             with open(cls.__file_path, 'r') as pass_file:
                 for data in pass_file:

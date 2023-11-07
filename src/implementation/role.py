@@ -16,10 +16,12 @@ class Role:
                     return True
         return False
     
-    def print_permisions_of_action(self, action: Actions) -> str:
+    def get_available_actions(self) -> str:
         s = ""
-        for perm in self.permissions[action]:
-            s += f"{perm.value}, "
+        for action, permissions in self.permissions.items():
+            action_text = action.value
+            permissions_text = ", ".join([f"{index + 1}: {perm.value}" for index, perm in enumerate(permissions)])
+            s+=f"{action_text}: {permissions_text}\n"
         return s
 
     def __repr__(self) -> str:

@@ -48,7 +48,6 @@ class AccessControl:
         if user.role.role == Roles.TELLER:
             # enforce time restriction to the teller between 9am-5pm
             if curr_hour < 9 or curr_hour > 16:
-                print("Hello fellow Teller, System hours is between 9am-5pm only.")
                 return False
         return True
 

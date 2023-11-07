@@ -47,20 +47,17 @@ class TestAccessControl(unittest.TestCase):
         user = User("tony", "tony", 'tony@gmai.com', "23432", Roles.TELLER)
         permision_granted = AccessControl.perform_access_control_policy(user, Actions.VIEW, Permissions.CLIENT_INFORMATION)
         print("Test User Teller with view permision on client information.")
-        print(f"Teller's view Permisions: {user.role.print_permisions_of_action(Actions.VIEW)}")
         print(f"Expected: True, Acutal: {permision_granted}")
         self.assertTrue(permision_granted)
 
         user = User("tony", "tony", 'tony@gmai.com', "23432", Roles.COMPLIANCE_OFFICER)
         permision_granted = AccessControl.perform_access_control_policy(user, Actions.SPECIAL, Permissions.VALIDATE_MODIFICATIONS)
         print(f"Test User Compliance Officer with special permision on {Permissions.VALIDATE_MODIFICATIONS.value}")
-        print(f"Compliance Officer Special Permisions: {user.role.print_permisions_of_action(Actions.SPECIAL)}")
         print(f"Expected: True, Acutal: {permision_granted}")
 
         user = User("tony", "tony", 'tony@gmai.com', "23432", Roles.PREMIUM_CLIENT)
         permision_granted = AccessControl.perform_access_control_policy(user, Actions.VIEW, Permissions.VALIDATE_MODIFICATIONS)
         print(f"Test Premium User with view permision on {Permissions.VALIDATE_MODIFICATIONS.value}")
-        print(f"Premium User View Permisions: {user.role.print_permisions_of_action(Actions.VIEW)}")
         print(f"Expected: False, Acutal: {permision_granted}")
 
         self.assertFalse(permision_granted)

@@ -4,14 +4,6 @@ from src.implementation.passwordManager import PasswordManager
 import re
 
 class EnrollUserInterface:
-
-    def __init__(self) -> None: 
-        self.username = ""
-        self.name = ""
-        self.email = ""
-        self.password = ""
-        self.phone = ""
-        self.role = ""
     
     def __password_rules(self) -> str:
         s = "Password Rules:\n"
@@ -44,28 +36,28 @@ class EnrollUserInterface:
     def run_interface(self):
         print("Enrolling User")
         print("-------------------")
-        self.username = self.__get_input("Username")
-        self.name = self.__get_input("Name")
-        self.email = self.__get_input("Email")
-        self.phone = self.__get_input("Phone number")
+        username = self.__get_input("Username")
+        name = self.__get_input("Name")
+        email = self.__get_input("Email")
+        phone = self.__get_input("Phone number")
         
         while True: 
-            self.role = self.__get_input(f"Available Roles: {Roles.to_string()}\nRole chosen:", is_role=True)
-            if not Roles.role_exists(self.role):
+            role = self.__get_input(f"Available Roles: {Roles.to_string()}\nRole chosen:", is_role=True)
+            if not Roles.role_exists(role):
                 print("Invalid Role, please type again based on the selection.")
                 continue
             break
             
         while True:
-            self.password = self.__get_input(f"{self.__password_rules()}\nInput Password:")
-            if not PasswordManager.add_record(self.username, self.role, self.name, self.email, self.phone, self.password):
+            password = self.__get_input(f"{self.__password_rules()}\nInput Password:")
+            if not PasswordManager.add_record(username, role, name, email, phone, password):
                 # password provided was invalid, adding user to the record was unsuccessful
                 print("Invalid Password, please try again")
                 continue
             # valid password input, break out
             break
         
-        print(f"Successfully enroled user with username {self.username}")
+        print(f"Successfully enroled user with username {username}")
 
 if __name__ == "__main__":
     enroll = EnrollUserInterface()
