@@ -2,6 +2,7 @@ import sys
 from src.implementation.passwordManager import PasswordManager
 from src.implementation.accessControl import AccessControl
 from src.implementation.constants.actions import Actions
+from src.implementation.constants.permisions import Permissions
 
 class LoginUserInterface:
 
@@ -53,12 +54,40 @@ class LoginUserInterface:
             if val.lower() == "exit":
                 print("Logging out!")
                 break
-
+            
+            # validate the input
             split_input = val.split(" ")
             
+            # validate number of inputs
             if len(split_input) >= 3:
                 print("Too many inputs")
                 continue
+            
+            # validate action selection
+            action = split_input[0]
+            enum_action = Actions.get_action_by_string(action)
+            if not enum_action:
+                print("invalid action selected")
+                continue
+
+            if not user.role.has_action(enum_action):
+                print(f"You don't have action {enum_action.value} rights")
+                continue
+            
+            permission = split_input[1]
+            try:
+                permission = int(permission)
+            except:
+                print("Invalid permission, has to be a number")
+                continue
+            
+            if not user.role.verify_permission_index(enum_action, permission - 1):
+                print("invalid permision selected")
+                continue
+                                                               
+            AccessControl.perform_access_control_policy(user, enum_action, user.role.get_permission_by_index(enum_action, permission - 1))
+            
+
 
 
 

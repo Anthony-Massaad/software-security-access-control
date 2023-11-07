@@ -8,7 +8,6 @@ class User:
         self.name = name 
         self.email = email
         self.phone = phone
-        self.grantAccess = False
         self.role = AccessControl.grant_role(role)
 
     def __repr__(self) -> str:

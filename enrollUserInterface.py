@@ -34,30 +34,31 @@ class EnrollUserInterface:
         return s
 
     def run_interface(self):
-        print("Enrolling User")
-        print("-------------------")
-        username = self.__get_input("Username")
-        name = self.__get_input("Name")
-        email = self.__get_input("Email")
-        phone = self.__get_input("Phone number")
-        
-        while True: 
-            role = self.__get_input(f"Available Roles: {Roles.to_string()}\nRole chosen:", is_role=True)
-            if not Roles.role_exists(role):
-                print("Invalid Role, please type again based on the selection.")
-                continue
-            break
-            
         while True:
-            password = self.__get_input(f"{self.__password_rules()}\nInput Password:")
-            if not PasswordManager.add_record(username, role, name, email, phone, password):
-                # password provided was invalid, adding user to the record was unsuccessful
-                print("Invalid Password, please try again")
-                continue
-            # valid password input, break out
-            break
-        
-        print(f"Successfully enroled user with username {username}")
+            print("Enrolling User")
+            print("-------------------")
+            username = self.__get_input("Username")
+            name = self.__get_input("Name")
+            email = self.__get_input("Email")
+            phone = self.__get_input("Phone number")
+            
+            while True: 
+                role = self.__get_input(f"Available Roles: {Roles.to_string()}\nRole chosen:", is_role=True)
+                if not Roles.role_exists(role):
+                    print("Invalid Role, please type again based on the selection.")
+                    continue
+                break
+                
+            while True:
+                password = self.__get_input(f"{self.__password_rules()}\nInput Password:")
+                if not PasswordManager.add_record(username, role, name, email, phone, password):
+                    # password provided was invalid, adding user to the record was unsuccessful
+                    print("Invalid Password, please try again")
+                    continue
+                # valid password input, break out
+                break
+            
+            print(f"Successfully enrolled user with username {username}")
 
 if __name__ == "__main__":
     enroll = EnrollUserInterface()

@@ -4,7 +4,7 @@ from src.implementation.constants.roles import Roles
 from src.implementation.constants.permisions import user_permissions
 from src.implementation.constants.actions import Actions
 from src.implementation.constants.permisions import Permissions
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 from datetime import datetime
 
 if TYPE_CHECKING:
@@ -25,8 +25,8 @@ class AccessControl:
     __technical_support_role = Role(Roles.TECHNICAL_SUPPORT, user_permissions[Roles.TECHNICAL_SUPPORT])
     __compliance_officer_role = Role(Roles.COMPLIANCE_OFFICER, user_permissions[Roles.COMPLIANCE_OFFICER])
 
-    __modifications = []
-    __accountAccessGranted = []
+    __modifications: List[User] = []
+    __support_tickets: List[User] = []
     
     @classmethod
     def grant_role(cls, role: Roles) -> Role:
@@ -53,6 +53,57 @@ class AccessControl:
 
     @classmethod
     def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool: 
-        if (user.role.has_permision(action, permission)):
-            return True
+        
+        if not user.role.get_action(action):
+            # deny user access if they don't have action permission
+            print(f"ACCESS DENIED FOR ACTIONS {action.value}")
+            return False
+
+        if action == Actions.VIEW:
+            for perm in user.role.get_action(action):
+                if perm == permission:
+                    print(f"ACCESS GRANTED FOR VIEWING {permission.value}")
+                    return True
+            print(f"ACCESS DENIED FOR VIEWING {permission.value}")
+        elif action == Actions.MODIFY:
+            for perm in user.role.get_action(action):
+                if perm == permission:
+                    print(f"ACCESS GRANTED FOR MODIFYING {permission.value}")
+                    if perm == Permissions.INVESTMENT_PORTFOLIO:
+                        # investment portfolio's modification CAN be verified by compliance officer's
+                        print(f"MODIFYING {permission.value} CAN BE VERIFIED BY A COMPIANCE OFFICER")
+                        cls.__modifications.append(user)
+                        return True
+        elif action == Actions.SPECIAL:
+            if permission == Permissions.REQUEST_SUPPORT:
+                # request support can only be done by clients and premium clients
+                if user.role.role == Roles.PREMIUM_CLIENT or user.role.role == Roles.REGULAR_CLIENT:
+                    print("Permissions granted to request support")
+                    cls.__support_tickets.append(user)
+                    return True
+            elif permission == Permissions.VALIDATE_MODIFICATIONS:
+                # modifications to invest portfolios can only be validated by compliance officer's
+                if user.role.role == Roles.COMPLIANCE_OFFICER:
+                    if not cls.__modifications:
+                        # no modifications done yet
+                        print("NO MODIFICATIONS TO INVESTMENT PORTFOLIO'S TO VERIFY")
+                        return True
+                    
+                    while cls.__modifications:
+                        # while there are modifications to be verified, continue to verify 
+                        mod_user = cls.__modifications.pop()
+                        print(f"Changes made by {mod_user.name} to portfolio verified")
+
+                    return True
+            elif permission == Permissions.REVIEW_SUPPORT_TICKETS:
+                if user.role.role == Roles.TECHNICAL_SUPPORT:
+                    if not cls.__support_tickets:
+                        # no support requests done yet
+                        print("NO SUPPORT TICKETS TO REIVEW")
+                        return True
+
+
+                    
+
+
         return False

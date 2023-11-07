@@ -6,8 +6,8 @@ class Actions(Enum):
     SPECIAL = "Special"
 
     @classmethod
-    def valid_action(cls, action: str) -> bool:
+    def get_action_by_string(cls, action: str):
         for enum_member in cls:
             if enum_member.value.lower() == action.lower():
-                return True
-        return False
+                return enum_member
+        return None

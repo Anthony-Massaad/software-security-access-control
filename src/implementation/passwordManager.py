@@ -27,7 +27,8 @@ class PasswordManager:
     __prohibited_formats = [r".*?(?=\d{1,2}/\d{1,2}/\d{2,4})", r".*?(?=([A-Z]{3,4}[0-9]{3,4})|([0-9]{3,4}[A-Z]{3,4}))", r".*?(?=\d{10,11})"]
     __common_passwords = ["PaASsword@1", "Qwerty#@123", "Qaz12!3wsx"]
     
-    __file_path = "/etc/passwd.txt"
+    # __file_path = "/etc/passwd.txt"
+    __file_path = "passwd.txt"
     
     def __hash_password(password: str, salt: str):
         return hashlib.sha256(f"{password}{salt}".encode('utf-8')).hexdigest()
@@ -52,10 +53,8 @@ class PasswordManager:
         record = f"{username} : {salt_string} : {hash_string} : {role} : {name} : {email} : {phone}"
 
         if not os.path.exists(cls.__file_path):
-            # File doesn't exist, create it and append the record
+            # File doesn't exist, create it
             f = open(cls.__file_path, "x").close()
-            # with open(cls.__file_path, 'w') as file:
-            #     file.write(record + '\n')
 
         with open(cls.__file_path, 'a') as file:
             file.write(record + '\n')
