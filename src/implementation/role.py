@@ -2,6 +2,7 @@
 from src.implementation.constants.roles import Roles
 from src.implementation.constants.permisions import Permissions
 from src.implementation.constants.actions import Actions
+from typing import List
 
 class Role:
 
@@ -30,6 +31,12 @@ class Role:
 
     def get_action(self, action: Actions) -> Actions:
         return self.permissions[action]
+
+    def elevate_permission(self, action: Actions, elevated_permissions: List[Permissions]):
+        if not self.has_action(action):
+            self.permissions[action] = elevated_permissions
+            return
+        self.permissions[action] = self.permissions[action] + elevated_permissions
 
     def __repr__(self) -> str:
         return f"Role: {self.role.value} \n Permisions: {self.permissions}"

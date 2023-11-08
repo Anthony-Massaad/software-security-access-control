@@ -52,8 +52,7 @@ class AccessControl:
         return True
 
     @classmethod
-    def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool: 
-        
+    def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool:
         if not user.role.get_action(action):
             # deny user access if they don't have action permission
             print(f"ACCESS DENIED FOR ACTIONS {action.value}")
@@ -101,9 +100,12 @@ class AccessControl:
                         # no support requests done yet
                         print("NO SUPPORT TICKETS TO REIVEW")
                         return True
-
-
+                    # assuming the client will agree to the request for their information 
+                    while cls.__support_tickets:
+                        supp_user = cls.__support_tickets.pop()
+                        print(f"REVIEWING SUPPORT REQUESTED BY {supp_user.username}")
                     
-
-
+                    # elevate the tech_support permissions
+                    user.role.elevate_permission(Actions.VIEW, [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO])
+                    return True
         return False

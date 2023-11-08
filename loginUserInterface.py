@@ -37,55 +37,60 @@ class LoginUserInterface:
                     sys.exit(0)
                 # is a valid user, system accessed
                 print("Successful Log in\n")
-                break
             else:
                 print("Incorrect username or password. Try again")
+                continue
         
-        print(f"Welcome {user.username}")
-        print("Note: all inputs from here are not case sensitive")
-        # User can perform some actions
-        while True: 
-            # while logged in
-            print("Actions Available:")
-            print("---------------------")
-            print(user.role.get_available_actions())
+            print(f"Welcome {user.username}")
+            print("Note: all inputs from here are not case sensitive")
+            # User can perform some actions
+            while True: 
+                # while logged in
+                print("Actions Available:")
+                print("---------------------")
+                print(user.role.get_available_actions())
 
-            val = input("Type an action (examples: view 0, modify 1) or exit to log out: ")
-            if val.lower() == "exit":
-                print("Logging out!")
-                break
-            
-            # validate the input
-            split_input = val.split(" ")
-            
-            # validate number of inputs
-            if len(split_input) >= 3:
-                print("Too many inputs")
-                continue
-            
-            # validate action selection
-            action = split_input[0]
-            enum_action = Actions.get_action_by_string(action)
-            if not enum_action:
-                print("invalid action selected")
-                continue
+                val = input("Type an action (examples: view 0, modify 1) or 'exit' to quit ('sign out' to log out): ")
+                if val.lower() == "exit":
+                    print("Logging out and exiting!")
+                    sys.exit(0)
 
-            if not user.role.has_action(enum_action):
-                print(f"You don't have action {enum_action.value} rights")
-                continue
-            
-            permission = split_input[1]
-            try:
-                permission = int(permission)
-            except:
-                print("Invalid permission, has to be a number")
-                continue
-            
-            if not user.role.verify_permission_index(enum_action, permission - 1):
-                print("invalid permision selected")
-                continue
-                                                               
-            AccessControl.perform_access_control_policy(user, enum_action, user.role.get_permission_by_index(enum_action, permission - 1))
+                if val.lower() == "sign out":
+                    break
+                
+                # validate the input
+                split_input = val.split(" ")
+                
+                # validate number of inputs
+                if len(split_input) >= 3:
+                    print("Too many inputs")
+                    continue
+                
+                # validate action selection
+                action = split_input[0]
+                enum_action = Actions.get_action_by_string(action)
+                if not enum_action:
+                    print("invalid action selected")
+                    continue
+
+                if not user.role.has_action(enum_action):
+                    print(f"You don't have action {enum_action.value} rights")
+                    continue
+                
+                permission = split_input[1]
+                try:
+                    permission = int(permission)
+                except:
+                    print("Invalid permission, has to be a number")
+                    continue
+                
+                if not user.role.verify_permission_index(enum_action, permission - 1):
+                    print("invalid permision selected")
+                    continue
+
+                print()                                    
+                AccessControl.perform_access_control_policy(user, enum_action, user.role.get_permission_by_index(enum_action, permission - 1))
+                print()
             
 
 
