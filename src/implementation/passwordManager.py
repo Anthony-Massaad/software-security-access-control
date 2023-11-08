@@ -10,7 +10,7 @@ from typing import Union
 # bcrypt is designed to be slow and is community maintained
 # hashlib is python maintained and faster
 class PasswordManager:
-# in regex, \d is any digit from 0 to 9, so match any numeric digit
+    # in regex, \d is any digit from 0 to 9, so match any numeric digit
     # .*? indicates match any character before the specified statement
     # Initial pattern for the password complexity requirements
     # (?=.*[A-Z]) specifies at least 1 upper case letter
