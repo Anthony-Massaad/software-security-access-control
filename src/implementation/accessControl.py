@@ -28,6 +28,14 @@ class AccessControl:
     
     @classmethod
     def grant_role(cls, role: Roles) -> Optional[Role]:
+        """Grant a role based on the role input provided
+
+        Args:
+            role (Roles): the role desired
+
+        Returns:
+            Optional[Role]: the Role is found, otherwise None
+        """
         for defined_role in cls.__roles:
             if role == defined_role.role:
                 return defined_role
@@ -36,6 +44,14 @@ class AccessControl:
 
     @classmethod
     def enforce_ABAC(cls, user: User) -> bool:
+        """Enforce ABAC policy on the system to define authorization and restrictions.
+
+        Args:
+            user (User): the User to enforce ABAC policy on
+
+        Returns:
+            bool: True if the User passed the ABAC policy, otherwise False
+        """
         curr_time = datetime.now()
         curr_hour = curr_time.hour
         if user.role.role == Roles.TELLER:
@@ -47,6 +63,16 @@ class AccessControl:
 
     @classmethod
     def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool:
+        """
+
+        Args:
+            user (User): _description_
+            action (Actions): _description_
+            permission (Permissions): _description_
+
+        Returns:
+            bool: _description_
+        """
         if not user.role.get_action(action):
             # deny user access if they don't have action permission
             print(f"ACCESS DENIED FOR ACTIONS {action.value}")
