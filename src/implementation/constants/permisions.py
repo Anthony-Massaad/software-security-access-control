@@ -1,6 +1,7 @@
 from src.implementation.constants.roles import Roles
 from src.implementation.constants.actions import Actions
 from enum import Enum
+from typing import Dict, List, Union
 
 class Permissions(Enum):
     CLIENT_INFORMATION = "Client Information"
@@ -17,7 +18,9 @@ class Permissions(Enum):
     REVIEW_SUPPORT_TICKETS = "Review Support Tickets"
     VALIDATE_MODIFICATIONS = "Validate Modifications"
 
-user_permissions = {
+permission_type = Dict[Actions, List[Permissions]]
+
+user_permissions: Dict[Roles, permission_type] = {
     Roles.REGULAR_CLIENT: {
         Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO, Permissions.FINANCIAL_ADVISOR_CONTACT],
         Actions.MODIFY: [Permissions.CLIENT_INFORMATION],

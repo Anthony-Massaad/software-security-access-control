@@ -3,7 +3,7 @@ from src.implementation.constants.roles import Roles
 
 class User:
     
-    def __init__(self, username: str, name: str, email: str, phone: str, role: Roles):
+    def __init__(self, username: str, name: str, email: str, phone: str, role: Roles) -> None:
         self.username = username
         self.name = name 
         self.email = email

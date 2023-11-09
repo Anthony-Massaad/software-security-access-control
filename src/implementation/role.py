@@ -1,12 +1,12 @@
 
 from src.implementation.constants.roles import Roles
-from src.implementation.constants.permisions import Permissions
+from src.implementation.constants.permisions import Permissions, permission_type
 from src.implementation.constants.actions import Actions
 from typing import List
 
 class Role:
 
-    def __init__(self, role: Roles, permisions = {}) -> None:
+    def __init__(self, role: Roles, permisions: permission_type = {}) -> None:
         self.role = role
         self.permissions = permisions
 
@@ -32,7 +32,7 @@ class Role:
     def get_action(self, action: Actions) -> Actions:
         return self.permissions[action]
 
-    def elevate_permission(self, action: Actions, elevated_permissions: List[Permissions]):
+    def elevate_permission(self, action: Actions, elevated_permissions: List[Permissions]) -> None:
         if not self.has_action(action):
             self.permissions[action] = elevated_permissions
             return

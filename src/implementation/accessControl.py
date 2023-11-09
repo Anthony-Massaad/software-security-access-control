@@ -4,7 +4,7 @@ from src.implementation.constants.roles import Roles
 from src.implementation.constants.permisions import user_permissions
 from src.implementation.constants.actions import Actions
 from src.implementation.constants.permisions import Permissions
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 from datetime import datetime
 
 if TYPE_CHECKING:
@@ -15,29 +15,25 @@ if TYPE_CHECKING:
 # we will be using RBAC to handle role accessing 
 # we will also be using ABAC to handle operational control handling for the Teller
 class AccessControl:
-
-    __regular_client_role = Role(Roles.REGULAR_CLIENT, user_permissions[Roles.REGULAR_CLIENT])
-    __premium_client_role = Role(Roles.PREMIUM_CLIENT, user_permissions[Roles.PREMIUM_CLIENT])
-    __financial_advisor_role = Role(Roles.FINANCIAL_ADVISOR, user_permissions[Roles.FINANCIAL_ADVISOR])
-    __financial_planner_role = Role(Roles.FINANCIAL_PLANNER, user_permissions[Roles.FINANCIAL_PLANNER])
-    __investment_analyst_role = Role(Roles.INVESTMENT_ANALYST, user_permissions[Roles.INVESTMENT_ANALYST])
-    __teller_role = Role(Roles.TELLER, user_permissions[Roles.TELLER])
-    __technical_support_role = Role(Roles.TECHNICAL_SUPPORT, user_permissions[Roles.TECHNICAL_SUPPORT])
-    __compliance_officer_role = Role(Roles.COMPLIANCE_OFFICER, user_permissions[Roles.COMPLIANCE_OFFICER])
+    __roles: List[Role] = [
+        Role(Roles.REGULAR_CLIENT, user_permissions[Roles.REGULAR_CLIENT]),
+        Role(Roles.PREMIUM_CLIENT, user_permissions[Roles.PREMIUM_CLIENT]),
+        Role(Roles.FINANCIAL_ADVISOR, user_permissions[Roles.FINANCIAL_ADVISOR]),
+        Role(Roles.FINANCIAL_PLANNER, user_permissions[Roles.FINANCIAL_PLANNER]),
+        Role(Roles.INVESTMENT_ANALYST, user_permissions[Roles.INVESTMENT_ANALYST]),
+        Role(Roles.TELLER, user_permissions[Roles.TELLER]),
+        Role(Roles.TECHNICAL_SUPPORT, user_permissions[Roles.TECHNICAL_SUPPORT]),
+        Role(Roles.COMPLIANCE_OFFICER, user_permissions[Roles.COMPLIANCE_OFFICER])
+    ]
 
     __modifications: List[User] = []
     __support_tickets: List[User] = []
     
     @classmethod
-    def grant_role(cls, role: Roles) -> Role:
-        if role == Roles.REGULAR_CLIENT: return cls.__regular_client_role
-        elif role == Roles.PREMIUM_CLIENT: return cls.__premium_client_role
-        elif role == Roles.FINANCIAL_ADVISOR: return cls.__financial_advisor_role
-        elif role == Roles.FINANCIAL_PLANNER: return cls.__financial_planner_role
-        elif role == Roles.INVESTMENT_ANALYST: return cls.__investment_analyst_role
-        elif role == Roles.TELLER: return cls.__teller_role
-        elif role == Roles.TECHNICAL_SUPPORT: return cls.__technical_support_role
-        elif role == Roles.COMPLIANCE_OFFICER: return cls.__compliance_officer_role
+    def grant_role(cls, role: Roles) -> Optional[Role]:
+        for defined_role in cls.__roles:
+            if role == defined_role.role:
+                return defined_role
         print("[ERROR] Could not determine Role")
         return None
 
@@ -48,6 +44,7 @@ class AccessControl:
         if user.role.role == Roles.TELLER:
             # enforce time restriction to the teller between 9am-5pm
             if curr_hour < 9 or curr_hour > 16:
+                print("Hello fellow Teller, System hours is between 9am-5pm only. Thank you.")
                 return False
         return True
 

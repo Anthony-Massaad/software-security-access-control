@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 class Roles(Enum):
     REGULAR_CLIENT = "Regular Client"
@@ -15,7 +16,7 @@ class Roles(Enum):
         return ', '.join(member.value for member in cls)
 
     @classmethod
-    def get_role_by_name(cls, role: str):
+    def get_role_by_name(cls, role: str) -> Optional['Roles']:
         for enum_member in cls:
             if enum_member.value.lower() == role.lower():
                 return enum_member

@@ -5,7 +5,7 @@ import os
 import re
 from src.implementation.user import User
 from src.implementation.constants.roles import Roles
-from typing import Union
+from typing import Optional
 
 # bcrypt is designed to be slow and is community maintained
 # hashlib is python maintained and faster
@@ -30,7 +30,7 @@ class PasswordManager:
     # __file_path = "/etc/passwd.txt"
     __file_path = "passwd.txt"
     
-    def __hash_password(password: str, salt: str):
+    def __hash_password(password: str, salt: str) -> str:
         return hashlib.sha256(f"{password}{salt}".encode('utf-8')).hexdigest()
 
     @classmethod
@@ -63,7 +63,7 @@ class PasswordManager:
         return True
     
     @classmethod
-    def retrieve_record(cls, username: str, passowrd: str) -> Union[User, None]:
+    def retrieve_record(cls, username: str, passowrd: str) -> Optional[User]:
         if os.path.exists(cls.__file_path):
             with open(cls.__file_path, 'r') as pass_file:
                 for data in pass_file:

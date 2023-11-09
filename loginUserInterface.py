@@ -33,8 +33,7 @@ class LoginUserInterface:
                 if not AccessControl.enforce_ABAC(user):
                     # enforce the abac rule on the user to determine if they can access the system
                     # use case, the user is a teller and the system is only accessed between 9-5 for tellers
-                    print("Hello fellow Teller, System hours is between 9am-5pm only. Thank you.")
-                    sys.exit(0)
+                    continue
                 # is a valid user, system accessed
                 print("Successful Log in\n")
             else:
