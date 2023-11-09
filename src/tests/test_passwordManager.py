@@ -4,7 +4,10 @@ from src.implementation.constants.roles import Roles
 
 class TestPasswordManager(unittest.TestCase):
     def test_check_password(self):
+        print()
+        print("-----------------------")
         print("Testing valid_passowrd(...)")
+        print()
         username = "Tony2@859!"
 
         success = PasswordManager.valid_password(username, "hD53dj!85")
@@ -54,3 +57,4 @@ class TestPasswordManager(unittest.TestCase):
         success = PasswordManager.valid_password(username, "PaASsword@1")
         print(f"Testing a password with common password 'PaASsword@1' with username '{username}' -> Expected: False, Actual {success}")
         self.assertFalse(success)
+        print("-----------------------")
