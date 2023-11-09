@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 # we will be using RBAC to handle role accessing 
 # we will also be using ABAC to handle operational control handling for the Teller
 class AccessControl:
+    """ Access Control of the system
+    """
     __roles: List[Role] = [
         Role(Roles.REGULAR_CLIENT, user_permissions[Roles.REGULAR_CLIENT]),
         Role(Roles.PREMIUM_CLIENT, user_permissions[Roles.PREMIUM_CLIENT]),
@@ -38,7 +40,9 @@ class AccessControl:
         """
         for defined_role in cls.__roles:
             if role == defined_role.role:
+                # Role found
                 return defined_role
+        # Role not found      
         print("[ERROR] Could not determine Role")
         return None
 
@@ -63,15 +67,15 @@ class AccessControl:
 
     @classmethod
     def perform_access_control_policy(cls, user: User, action: Actions, permission: Permissions) -> bool:
-        """
+        """Peform access control policy for a specific action and permission of a User
 
         Args:
-            user (User): _description_
-            action (Actions): _description_
-            permission (Permissions): _description_
+            user (User): the User
+            action (Actions): the specified Action
+            permission (Permissions): the specified Permission
 
         Returns:
-            bool: _description_
+            bool: True if access control was performed, otherwise False
         """
         if not user.role.get_action(action):
             # deny user access if they don't have action permission

@@ -4,8 +4,15 @@ from src.implementation.passwordManager import PasswordManager
 import re
 
 class EnrollUserInterface:
+    """Enroll user interface
+    """
     
     def __password_rules(self) -> str:
+        """Display the password rules to the client
+
+        Returns:
+            str: the password rules
+        """
         s = "Password Rules:\n"
         s += "-----------------\n"
         s += "- Must be at leat 8-12 characters in length\n"
@@ -17,6 +24,15 @@ class EnrollUserInterface:
         return s
     
     def __get_input(self, prompt: str, is_role: bool = False) -> str:
+        """get the input of the user
+
+        Args:
+            prompt (str): The prompt for the input
+            is_role (bool, optional): True if the prompt is for Role. Defaults to False.
+
+        Returns:
+            str: the input of the user
+        """
         while True: 
             s = ""
             s = input(f"{prompt} (or 'exit' to quit): ")
@@ -33,7 +49,9 @@ class EnrollUserInterface:
          
         return s
 
-    def run_interface(self):
+    def run_interface(self) -> None:
+        """The user interface for the enroll user
+        """
         while True:
             print("Enrolling User")
             print("-------------------")

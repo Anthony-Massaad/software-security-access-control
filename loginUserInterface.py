@@ -4,8 +4,17 @@ from src.implementation.accessControl import AccessControl
 from src.implementation.RBAC import Actions
 
 class LoginUserInterface:
-
+    """The login interface
+    """
     def __get_input(self, prompt: str) -> str:
+        """Get the input from the user
+
+        Args:
+            prompt (str): The prompt to display to the user
+
+        Returns:
+            str: the user input
+        """
         while True: 
             s = ""
             s = input(f"{prompt} (or 'exit' to quit): ")
@@ -19,6 +28,8 @@ class LoginUserInterface:
         return s
 
     def run_interface(self) -> None:
+        """User interface for login and other actions in the system
+        """
         print("Log In")
         print("-----------")
         user = None

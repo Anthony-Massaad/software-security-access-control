@@ -2,8 +2,18 @@ from src.implementation.accessControl import AccessControl
 from src.implementation.RBAC import Roles
 
 class User:
-    
+    """The System User
+    """
     def __init__(self, username: str, name: str, email: str, phone: str, role: Roles) -> None:
+        """User Constructor
+
+        Args:
+            username (str): the username/user_id
+            name (str): the name of the user
+            email (str): the email of the user
+            phone (str): the number of the user
+            role (Roles): the specified Role for the user
+        """
         self.username = username
         self.name = name 
         self.email = email
@@ -11,5 +21,10 @@ class User:
         self.role = AccessControl.grant_role(role)
 
     def __repr__(self) -> str:
+        """To string method to print the user
+
+        Returns:
+            str: to string of User
+        """
         s = 'User:\n username: ' + self.username + " | name: " + self.name + "\n" + "email: " + self.email + " | phone: " + self.phone
         return s
