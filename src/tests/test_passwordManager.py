@@ -1,6 +1,6 @@
 import unittest
 from src.implementation.passwordManager import PasswordManager
-from src.implementation.constants.roles import Roles
+from src.implementation.RBAC import Roles
 
 class TestPasswordManager(unittest.TestCase):
     def test_check_password(self):
