@@ -1,5 +1,5 @@
 import sys
-from src.implementation.constants.roles import Roles
+from src.implementation.RBAC import Roles
 from src.implementation.passwordManager import PasswordManager
 import re
 

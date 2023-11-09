@@ -1,8 +1,7 @@
 import sys
 from src.implementation.passwordManager import PasswordManager
 from src.implementation.accessControl import AccessControl
-from src.implementation.constants.actions import Actions
-from src.implementation.constants.permisions import Permissions
+from src.implementation.RBAC import Actions
 
 class LoginUserInterface:
 

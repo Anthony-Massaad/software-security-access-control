@@ -1,7 +1,4 @@
-
-from src.implementation.constants.roles import Roles
-from src.implementation.constants.permisions import Permissions, permission_type
-from src.implementation.constants.actions import Actions
+from src.implementation.RBAC import Roles, Permissions, permission_type, Actions
 from typing import List
 
 class Role:

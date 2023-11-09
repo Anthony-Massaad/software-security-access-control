@@ -4,7 +4,7 @@ import base64
 import os
 import re
 from src.implementation.user import User
-from src.implementation.constants.roles import Roles
+from src.implementation.RBAC import Roles
 from typing import Optional
 
 # bcrypt is designed to be slow and is community maintained

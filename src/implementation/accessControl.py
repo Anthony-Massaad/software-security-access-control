@@ -1,9 +1,6 @@
 from __future__ import annotations # necessary to use TYPE_CHECKING with annotations and not strings
 from src.implementation.role import Role
-from src.implementation.constants.roles import Roles
-from src.implementation.constants.permisions import user_permissions
-from src.implementation.constants.actions import Actions
-from src.implementation.constants.permisions import Permissions
+from src.implementation.RBAC import Roles, Permissions, user_permissions, Actions
 from typing import TYPE_CHECKING, List, Optional
 from datetime import datetime
 

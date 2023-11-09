@@ -1,7 +1,49 @@
-from src.implementation.constants.roles import Roles
-from src.implementation.constants.actions import Actions
 from enum import Enum
-from typing import Dict, List, Union
+from typing import Optional
+from typing import Dict, List
+
+
+class Roles(Enum):
+    REGULAR_CLIENT = "Regular Client"
+    PREMIUM_CLIENT = "Premium Client"
+    FINANCIAL_ADVISOR = "Financial Advisor"
+    COMPLIANCE_OFFICER = "Compliance Officer"
+    INVESTMENT_ANALYST = "Investment Analyst"
+    FINANCIAL_PLANNER = "Financial Planner"
+    TECHNICAL_SUPPORT = "Technical Support"
+    TELLER = "Teller"
+    
+    @classmethod
+    def to_string(cls) -> str:
+        return ', '.join(member.value for member in cls)
+
+    @classmethod
+    def get_role_by_name(cls, role: str) -> Optional['Roles']:
+        for enum_member in cls:
+            if enum_member.value.lower() == role.lower():
+                return enum_member
+
+        print(f"[ERROR]: get_role_by_name(...) could not find role {role}")
+        return None
+
+    @classmethod
+    def role_exists(cls, role: str) -> bool:
+        for enum_member in cls:
+            if enum_member.value.lower() == role.lower():
+                return True
+        return False
+
+class Actions(Enum): 
+    VIEW = "View"
+    MODIFY = "Modify"
+    SPECIAL = "Special"
+
+    @classmethod
+    def get_action_by_string(cls, action: str) -> Optional['Actions']:
+        for enum_member in cls:
+            if enum_member.value.lower() == action.lower():
+                return enum_member
+        return None
 
 class Permissions(Enum):
     CLIENT_INFORMATION = "Client Information"
