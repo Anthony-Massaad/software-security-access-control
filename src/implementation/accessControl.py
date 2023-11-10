@@ -9,8 +9,6 @@ if TYPE_CHECKING:
     # A special constant that is assumed to be True by 3rd party static type checkers. It is False at runtime.
     from src.implementation.user import User
 
-# we will be using RBAC to handle role accessing 
-# we will also be using ABAC to handle operational control handling for the Teller
 class AccessControl:
     """ Access Control of the system
     """
@@ -97,6 +95,7 @@ class AccessControl:
                         print(f"MODIFYING {permission.value} CAN BE VERIFIED BY A COMPIANCE OFFICER")
                         cls.__modifications.append(user)
                         return True
+            print(f"ACCESS DENIED FOR MODIFYING {permission.value}")
         elif action == Actions.SPECIAL:
             if permission == Permissions.REQUEST_SUPPORT:
                 # request support can only be done by clients and premium clients
@@ -104,6 +103,7 @@ class AccessControl:
                     print("Permissions granted to request support")
                     cls.__support_tickets.append(user)
                     return True
+                print(f"ACCESS DENIED FOR SPECIAL PERMISSION {permission.value}")
             elif permission == Permissions.VALIDATE_MODIFICATIONS:
                 # modifications to invest portfolios can only be validated by compliance officer's
                 if user.role.role == Roles.COMPLIANCE_OFFICER:
