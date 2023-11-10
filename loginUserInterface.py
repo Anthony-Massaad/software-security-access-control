@@ -1,5 +1,5 @@
 import sys
-from src.implementation.passwordManager import PasswordManager
+from src.implementation.passwordFileManager import PasswordFileManager
 from src.implementation.accessControl import AccessControl
 from src.implementation.RBAC import Actions
 
@@ -37,12 +37,11 @@ class LoginUserInterface:
             # handle sign in
             username = self.__get_input("Enter Username")
             password = self.__get_input("Enter Password")
-            user = PasswordManager.retrieve_record(username, password)
+            user = PasswordFileManager.retrieve_record(username, password)
 
             if user:
                 if not AccessControl.enforce_ABAC(user):
                     # enforce the abac rule on the user to determine if they can access the system
-                    # use case, the user is a teller and the system is only accessed between 9-5 for tellers
                     continue
                 # is a valid user, system accessed
                 print("Successful Log in\n")

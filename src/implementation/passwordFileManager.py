@@ -9,7 +9,7 @@ from typing import Optional
 
 # bcrypt is designed to be slow and is community maintained
 # hashlib is python maintained and faster
-class PasswordManager:
+class PasswordFileManager:
     """Manages the password for the system
     """
     # in regex, \d is any digit from 0 to 9, so match any numeric digit
@@ -71,6 +71,28 @@ class PasswordManager:
         return valid_pattern and not invalid_format and not eq_username_password and not is_common_password
     
     @classmethod
+    def is_unique_username(cls, username: str) -> bool:
+        """Handler to ensure the username selected is unique
+
+        Args:
+            username (str): the User's username
+
+        Returns:
+            bool: True if username is uniuque, otherwise False
+        """
+        if os.path.exists(cls.__file_path):
+            # check to see if the username/user_id already exists
+            with open(cls.__file_path, 'r') as pass_file:
+                for data in pass_file:
+                    split_data = data.split(" : ")
+                    data_username = split_data[0] # the user_id/username
+                    if username == data_username:
+                        # username already exists meaning it cannot be used
+                        return False
+        # username passed
+        return True
+    
+    @classmethod
     def add_record(cls, username: str, role: str, name: str, email: str, phone: str, password: str) -> bool:
         """Add a user to the record of the system
 
@@ -89,6 +111,12 @@ class PasswordManager:
             # password failed the check
             return False
         
+        if not os.path.exists(cls.__file_path):
+            # password File doesn't exist, create it
+            f = open(cls.__file_path, "x").close()
+        
+       
+        
         # generate a salt to apply the password of 16 bytes
         salt = secrets.token_bytes(16)
         salt_string = base64.b64encode(salt).decode()
@@ -97,10 +125,6 @@ class PasswordManager:
         record = f"{username} : {salt_string} : {hash_string} : {role} : {name} : {email} : {phone}"
 
         # add user record to the list of records
-        if not os.path.exists(cls.__file_path):
-            # File doesn't exist, create it
-            f = open(cls.__file_path, "x").close()
-
         # append user record to the record file
         with open(cls.__file_path, 'a') as file:
             file.write(record + '\n')

@@ -1,6 +1,6 @@
 import sys
 from src.implementation.RBAC import Roles
-from src.implementation.passwordManager import PasswordManager
+from src.implementation.passwordFileManager import PasswordFileManager
 import re
 
 class EnrollUserInterface:
@@ -38,10 +38,12 @@ class EnrollUserInterface:
             s = input(f"{prompt} (or 'exit' to quit): ")
 
             if s.lower() == "exit": 
+                # exit the enroll user system if the user wants by typing 'exit'
                 print("Exiting Enrolling user")
                 sys.exit(1)
                 
             if not is_role:
+                # if it's not the role selection, we don't want whitespace
                 if re.search(r"\s", s):
                     print("Cannot have spaces")
                     continue
@@ -55,7 +57,14 @@ class EnrollUserInterface:
         while True:
             print("Enrolling User")
             print("-------------------")
-            username = self.__get_input("Username")
+            while True:
+                username = self.__get_input("Username")
+                if not PasswordFileManager.is_unique_username(username):
+                    # username is not unique
+                    print("Username already in use, try again.")
+                    continue
+                break
+            
             name = self.__get_input("Name")
             email = self.__get_input("Email")
             phone = self.__get_input("Phone number")
@@ -63,15 +72,16 @@ class EnrollUserInterface:
             while True: 
                 role = self.__get_input(f"Available Roles: {Roles.to_string()}\nRole chosen:", is_role=True)
                 if not Roles.role_exists(role):
+                    # role selected is invalid
                     print("Invalid Role, please type again based on the selection.")
                     continue
                 break
                 
             while True:
                 password = self.__get_input(f"{self.__password_rules()}\nInput Password:")
-                if not PasswordManager.add_record(username, role, name, email, phone, password):
+                if not PasswordFileManager.add_record(username, role, name, email, phone, password):
                     # password provided was invalid, adding user to the record was unsuccessful
-                    print("Invalid Password, please try again")
+                    print("Bad password, please try again")
                     continue
                 # valid password input, break out
                 break
