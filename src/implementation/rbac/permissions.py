@@ -1,79 +1,7 @@
 from enum import Enum
-from typing import Optional
+from src.implementation.rbac.actions import Actions
+from src.implementation.rbac.roles import Roles
 from typing import Dict, List
-
-
-class Roles(Enum):
-    """The Roles of the system
-    """
-    REGULAR_CLIENT = "Regular Client"
-    PREMIUM_CLIENT = "Premium Client"
-    FINANCIAL_ADVISOR = "Financial Advisor"
-    COMPLIANCE_OFFICER = "Compliance Officer"
-    INVESTMENT_ANALYST = "Investment Analyst"
-    FINANCIAL_PLANNER = "Financial Planner"
-    TECHNICAL_SUPPORT = "Technical Support"
-    TELLER = "Teller"
-    
-    @classmethod
-    def to_string(cls) -> str:
-        """return a string representation of all the roles to display
-
-        Returns:
-            str: the string representation of the roles
-        """
-        return ', '.join(member.value for member in cls)
-
-    @classmethod
-    def get_role_by_name(cls, role: str) -> Optional['Roles']:
-        """Retreive a Role enum based on the name
-
-        Returns:
-            Optional[Role]: A Role if found, otherwise None
-        """
-        for enum_member in cls:
-            if enum_member.value.lower() == role.lower():
-                # Role Found
-                return enum_member
-
-        print(f"[ERROR]: get_role_by_name(...) could not find role {role}")
-        return None
-
-    @classmethod
-    def role_exists(cls, role: str) -> bool:
-        """Determine if a role exists
-
-        Args:
-            role (str): the role 
-
-        Returns:
-            bool: True if a role exists, otherwise False
-        """
-        for enum_member in cls:
-            if enum_member.value.lower() == role.lower():
-                # Role Found
-                return True
-        return False
-
-class Actions(Enum): 
-    """The Actions a user can perform
-    """
-    VIEW = "View"
-    MODIFY = "Modify"
-    SPECIAL = "Special"
-
-    @classmethod
-    def get_action_by_string(cls, action: str) -> Optional['Actions']:
-        """retreive an action based on the string provided
-
-        Returns:
-            Optional[Actions]: the Action found, otherwise None
-        """
-        for enum_member in cls:
-            if enum_member.value.lower() == action.lower():
-                # Action found
-                return enum_member
-        return None
 
 class Permissions(Enum):
     """Permissions available for the system
@@ -140,4 +68,3 @@ user_permissions: Dict[Roles, permission_type] = {
         Actions.SPECIAL: [Permissions.VALIDATE_MODIFICATIONS]
     }
 }
-

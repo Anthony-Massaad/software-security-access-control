@@ -1,7 +1,9 @@
 import unittest
 from src.implementation.accessControl import AccessControl
 from src.implementation.user import User
-from src.implementation.RBAC import Roles, Permissions, Actions
+from src.implementation.rbac.roles import Roles
+from src.implementation.rbac.permissions import Permissions
+from src.implementation.rbac.actions import Actions
 from datetime import datetime
 
 class TestAccessControl(unittest.TestCase):

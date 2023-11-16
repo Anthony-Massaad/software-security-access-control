@@ -1,7 +1,7 @@
 import sys
 from src.implementation.passwordFileManager import PasswordFileManager
 from src.implementation.accessControl import AccessControl
-from src.implementation.RBAC import Actions
+from src.implementation.rbac.actions import Actions
 
 class LoginUserInterface:
     """The login interface

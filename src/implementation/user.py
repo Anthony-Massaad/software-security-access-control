@@ -1,5 +1,5 @@
 from src.implementation.accessControl import AccessControl
-from src.implementation.RBAC import Roles
+from src.implementation.rbac.roles import Roles
 
 class User:
     """The System User

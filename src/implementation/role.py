@@ -1,4 +1,6 @@
-from src.implementation.RBAC import Roles, Permissions, permission_type, Actions
+from src.implementation.rbac.roles import Roles
+from src.implementation.rbac.permissions import Permissions, permission_type
+from src.implementation.rbac.actions import Actions
 from typing import List
 
 class Role:
