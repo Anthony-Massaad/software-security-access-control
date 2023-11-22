@@ -4,13 +4,13 @@ from typing import Optional
 class Roles(Enum):
     """The Roles of the system
     """
-    REGULAR_CLIENT = "Regular Client"
-    PREMIUM_CLIENT = "Premium Client"
-    FINANCIAL_ADVISOR = "Financial Advisor"
-    COMPLIANCE_OFFICER = "Compliance Officer"
-    INVESTMENT_ANALYST = "Investment Analyst"
-    FINANCIAL_PLANNER = "Financial Planner"
-    TECHNICAL_SUPPORT = "Technical Support"
+    REGULAR_CLIENT = "Regular_Client"
+    PREMIUM_CLIENT = "Premium_Client"
+    FINANCIAL_ADVISOR = "Financial_Advisor"
+    COMPLIANCE_OFFICER = "Compliance_Officer"
+    INVESTMENT_ANALYST = "Investment_Analyst"
+    FINANCIAL_PLANNER = "Financial_Planner"
+    TECHNICAL_SUPPORT = "Technical_Support"
     TELLER = "Teller"
     
     @classmethod

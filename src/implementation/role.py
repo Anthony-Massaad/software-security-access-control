@@ -37,6 +37,6 @@ class Role:
         s = ""
         for perm, lst_actions in self.permissions.items():
             perm_text = perm.value
-            action_text = ", ".join([f"({index}) {action.value}" for index, action in enumerate(lst_actions)])
+            action_text = ", ".join([f"({index}){action.value}" for index, action in enumerate(lst_actions)])
             s += f"{perm_text}: {action_text}\n"
         return s

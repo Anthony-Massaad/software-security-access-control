@@ -1,7 +1,7 @@
 import sys
 from src.implementation.passwordFileManager import PasswordFileManager
 from src.implementation.accessControl import AccessControl
-from src.implementation.rbac.actions import Actions
+from src.implementation.rbac.permissions import Permissions
 
 class LoginUserInterface:
     """The login interface
@@ -54,7 +54,7 @@ class LoginUserInterface:
             # User can perform some actions
             while True: 
                 # while logged in
-                print("Actions Available:")
+                print("\nActions Available:")
                 print("---------------------")
                 print(user.role.get_available_access())
 
@@ -74,30 +74,32 @@ class LoginUserInterface:
                     print("Too many inputs")
                     continue
                 
-                # validate action selection
-                action = split_input[0]
-                enum_action = Actions.get_action_by_string(action)
-                if not enum_action:
-                    print("invalid action selected")
+                #get the perm
+                perm = split_input[0]
+                enum_perm = Permissions.get_permission_by_string(perm)
+                if not enum_perm:
+                    print("invalid permission input")
                     continue
 
-                if not user.role.has_action(enum_action):
-                    print(f"You don't have action {enum_action.value} rights")
-                    continue
-                
-                permission = split_input[1]
+                # action type
+                action = split_input[1]
                 try:
-                    permission = int(permission)
-                except:
-                    print("Invalid permission, has to be a number")
+                    action = int(action)
+                except Exception:
+                    print("invalid action, has to be a number")
                     continue
                 
-                if not user.role.verify_permission_index(enum_action, permission - 1):
-                    print("invalid permision selected")
+                if not user.role.permissions.get(enum_perm):
+                    # verify the user has the permission they input
+                    print("invalid permission input, you don't have access")
+                    continue
+                
+                if action >= len(user.role.permissions[enum_perm]) or action < 0:
+                    print("invalid action index, needs to be within range")
                     continue
 
                 print()                                    
-                AccessControl.perform_access_control_policy(user, enum_action, user.role.get_permission_by_index(enum_action, permission - 1))
+                AccessControl.perform_access_control_policy(user, user.role.permissions[enum_perm][action], enum_perm)
                 print()
             
 
