@@ -56,7 +56,7 @@ class LoginUserInterface:
                 # while logged in
                 print("Actions Available:")
                 print("---------------------")
-                print(user.role.get_available_actions())
+                print(user.role.get_available_access())
 
                 val = input("Type an action (examples: view 0, modify 1) or 'exit' to quit ('sign out' to log out): ")
                 if val.lower() == "exit":

@@ -77,26 +77,20 @@ class AccessControl:
         Returns:
             bool: True if access control was performed, otherwise False
         """
-        if not user.role.get_action(action):
-            # deny user access if they don't have action permission
-            print(f"ACCESS DENIED FOR ACTIONS {action.value}")
-            return False
 
         if action == Actions.VIEW:
-            for perm in user.role.get_action(action):
-                if perm == permission:
-                    print(f"ACCESS GRANTED FOR VIEWING {permission.value}")
-                    return True
+            if user.role.has_access(permission, action):
+                print(f"ACCESS GRANTED FOR VIEWING {permission.value}")
+                return True
             print(f"ACCESS DENIED FOR VIEWING {permission.value}")
         elif action == Actions.MODIFY:
-            for perm in user.role.get_action(action):
-                if perm == permission:
-                    print(f"ACCESS GRANTED FOR MODIFYING {permission.value}")
-                    if perm == Permissions.INVESTMENT_PORTFOLIO:
-                        # investment portfolio's modification CAN be verified by compliance officer's
-                        print(f"MODIFYING {permission.value} CAN BE VERIFIED BY A COMPIANCE OFFICER")
-                        cls.__modifications.append(user)
-                        return True
+            if user.role.has_access(permission, action):
+                print(f"ACCESS GRANTED FOR MODIFYING {permission.value}")
+                if permission == Permissions.INVESTMENT_PORTFOLIO:
+                    # investment portfolio's modification CAN be verified by compliance officer's
+                    print(f"MODIFYING {permission.value} CAN BE VERIFIED BY A COMPIANCE OFFICER")
+                    cls.__modifications.append(user)
+                    return True
             print(f"ACCESS DENIED FOR MODIFYING {permission.value}")
         elif action == Actions.SPECIAL:
             if permission == Permissions.REQUEST_SUPPORT:

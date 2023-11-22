@@ -21,50 +21,66 @@ class Permissions(Enum):
     VALIDATE_MODIFICATIONS = "Validate Modifications"
 
 # the type definition of the permission
-permission_type = Dict[Actions, List[Permissions]]
+permission_type = Dict[Permissions, List[Actions]]
 
-# the user permissions 
-user_permissions: Dict[Roles, permission_type] = {
+user_permissions:  Dict[Roles, permission_type] = {
     Roles.REGULAR_CLIENT: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO, Permissions.FINANCIAL_ADVISOR_CONTACT],
-        Actions.MODIFY: [Permissions.CLIENT_INFORMATION],
-        Actions.SPECIAL: [Permissions.REQUEST_SUPPORT]
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
+        Permissions.CLIENT_INFORMATION: [Actions.MODIFY],
+        Permissions.REQUEST_SUPPORT: [Actions.SPECIAL]
     },
     Roles.PREMIUM_CLIENT: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO, 
-                   Permissions.FINANCIAL_ADVISOR_CONTACT, Permissions.FINANCIAL_PLANNER_CONTACT, Permissions.INVESTMENT_ANALYST_CONTACT],
-        Actions.MODIFY: [Permissions.INVESTMENT_PORTFOLIO],
-        Actions.SPECIAL: [Permissions.REQUEST_SUPPORT]
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW, Actions.MODIFY],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
+        Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW],
+        Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW],
+        Permissions.REQUEST_SUPPORT: [Actions.SPECIAL]
     },
     Roles.FINANCIAL_ADVISOR: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO,
-                   Permissions.FINANCIAL_ADVISOR_CONTACT, Permissions.FINANCIAL_PLANNER_CONTACT, Permissions.INVESTMENT_ANALYST_CONTACT,
-                   Permissions.PRIVATE_CONSUMER_INSTRUMENT],
-        Actions.MODIFY: [Permissions.INVESTMENT_PORTFOLIO, Permissions.FINANCIAL_ADVISOR_CONTACT]
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW, Actions.MODIFY],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW, Actions.MODIFY],
+        Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW],
+        Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW],
+        Permissions.PRIVATE_CONSUMER_INSTRUMENT: [Actions.VIEW]
     },
     Roles.FINANCIAL_PLANNER: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO,
-                   Permissions.FINANCIAL_ADVISOR_CONTACT, Permissions.FINANCIAL_PLANNER_CONTACT, Permissions.INVESTMENT_ANALYST_CONTACT,
-                   Permissions.PRIVATE_CONSUMER_INSTRUMENT, Permissions.MONEY_MARKET_INSTRUMENT],
-        Actions.MODIFY: [Permissions.INVESTMENT_PORTFOLIO, Permissions.FINANCIAL_PLANNER_CONTACT]
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW, Actions.MODIFY],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
+        Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW, Actions.MODIFY],
+        Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW],
+        Permissions.PRIVATE_CONSUMER_INSTRUMENT: [Actions.VIEW],
+        Permissions.MONEY_MARKET_INSTRUMENT: [Actions.MODIFY]
     },
     Roles.INVESTMENT_ANALYST: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO,
-                   Permissions.FINANCIAL_ADVISOR_CONTACT, Permissions.FINANCIAL_PLANNER_CONTACT, Permissions.INVESTMENT_ANALYST_CONTACT,
-                   Permissions.PRIVATE_CONSUMER_INSTRUMENT, Permissions.MONEY_MARKET_INSTRUMENT, Permissions.INTEREST_INSTRUMENT,
-                   Permissions.DERIVATIVES_TRADING],
-        Actions.MODIFY: [Permissions.INVESTMENT_PORTFOLIO, Permissions.INVESTMENT_ANALYST_CONTACT]
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW, Actions.MODIFY],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
+        Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW],
+        Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW, Actions.MODIFY],
+        Permissions.PRIVATE_CONSUMER_INSTRUMENT: [Actions.VIEW],
+        Permissions.MONEY_MARKET_INSTRUMENT: [Actions.VIEW],
+        Permissions.INTEREST_INSTRUMENT: [Actions.VIEW],
+        Permissions.DERIVATIVES_TRADING: [Actions.MODIFY]
     },
     Roles.TELLER: {
-        Actions.VIEW: [Permissions.ACCOUNT_BALANCE, Permissions.INVESTMENT_PORTFOLIO, 
-                   Permissions.FINANCIAL_ADVISOR_CONTACT, Permissions.FINANCIAL_PLANNER_CONTACT, Permissions.INVESTMENT_ANALYST_CONTACT],
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW],
+        Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
+        Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW],
+        Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW]
     },
     Roles.TECHNICAL_SUPPORT: {
-        Actions.VIEW: [Permissions.CLIENT_INFORMATION],
-        Actions.SPECIAL: [Permissions.REVIEW_SUPPORT_TICKETS]
+        Permissions.CLIENT_INFORMATION: [Actions.VIEW],
+        Permissions.REVIEW_SUPPORT_TICKETS: [Actions.SPECIAL]
     },
     Roles.COMPLIANCE_OFFICER: {
-        Actions.VIEW: [Permissions.INVESTMENT_PORTFOLIO, Permissions.ACCOUNT_BALANCE],
-        Actions.SPECIAL: [Permissions.VALIDATE_MODIFICATIONS]
+        Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW],
+        Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
+        Permissions.VALIDATE_MODIFICATIONS: [Actions.SPECIAL]
     }
 }
