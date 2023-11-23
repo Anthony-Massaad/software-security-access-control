@@ -138,8 +138,8 @@ class UserInterface:
             split_input = val.split(" ")
             
             # validate number of inputs
-            if len(split_input) >= 3:
-                print("Too many inputs")
+            if len(split_input) != 2:
+                print("Expected inputs is 2")
                 continue
             
             #get the perm

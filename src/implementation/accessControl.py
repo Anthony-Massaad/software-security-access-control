@@ -108,8 +108,8 @@ class AccessControl:
                 if permission == Permissions.REVIEW_SUPPORT_TICKETS:
                     print(f"reviewing support tickets. Role Elevated")
                     # elevate the tech_support permissions
-                    self.__access_control_matrix[role].get(Permissions.ACCOUNT_BALANCE, []).append(Actions.VIEW)
-                    self.__access_control_matrix[role].get(Permissions.INVESTMENT_PORTFOLIO, []).append(Actions.VIEW)
+                    self.__access_control_matrix[role][Permissions.ACCOUNT_BALANCE] = [Actions.VIEW]
+                    self.__access_control_matrix[role][Permissions.INVESTMENT_PORTFOLIO] = [Actions.VIEW]
             return True        
         print(f"Access denied for {action.value} action on {permission.value} permission")
         return False
