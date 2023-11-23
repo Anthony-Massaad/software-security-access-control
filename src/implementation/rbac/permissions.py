@@ -22,10 +22,10 @@ class Permissions(Enum):
 
     @classmethod
     def get_permission_by_string(cls, perm: str) -> Optional['Permissions']:
-        """retreive an action based on the string provided
+        """retreive a permissions based on the string provided
 
         Returns:
-            Optional[Actions]: the Action found, otherwise None
+            Optional[Permissions]: the Permission found, otherwise None
         """
         for enum_member in cls:
             if enum_member.value.lower() == perm.lower():

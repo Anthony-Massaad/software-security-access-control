@@ -9,6 +9,8 @@ class AccessControl:
     """
     
     def __init__(self):
+        """Default constructor for AccessControl
+        """
         self.__access_control_matrix:  Dict[Roles, permission_type] = {
             Roles.REGULAR_CLIENT: {
                 Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
@@ -72,9 +74,26 @@ class AccessControl:
         }
     
     def get_permissions(self, role: Roles) -> permission_type:
+        """Get the permissions dictionary based on role
+
+        Args:
+            role (Roles): the role 
+
+        Returns:
+            permission_type: the columns of permissions and their associates actions
+        """
         return self.__access_control_matrix.get(role, {})
         
     def enforce_ABAC(self, role: Roles, initial: bool = False):
+        """Enforce the ABAC policy on a given role
+
+        Args:
+            role (Roles): the role
+            initial (bool, optional): True if the ABAC enforcement is on intial login. Defaults to False.
+
+        Returns:
+            _type_: True if ABAC passed, otherwise False
+        """
         if initial:
             # on sign in, enforce abac
             if role == Roles.TELLER:
@@ -87,9 +106,10 @@ class AccessControl:
         return True
 
     def perform_access_control_policy(self, role: Roles, action: Actions, permission: Permissions) -> bool:
-        """Peform access control policy for a specific action and permission of a User
+        """Peform access control policy for a specific action and permission of a role
 
         Args:
+            role (Rles): the Role
             action (Actions): the specified Action
             permission (Permissions): the specified Permission
 

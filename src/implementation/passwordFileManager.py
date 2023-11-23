@@ -13,6 +13,8 @@ class PasswordFileManager:
     """Manages the password for the system
     """
     def __init__(self):
+        """default constructor
+        """
         # in regex, \d is any digit from 0 to 9, so match any numeric digit
         # .*? indicates match any character before the specified statement
         # Initial pattern for the password complexity requirements

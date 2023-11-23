@@ -63,6 +63,8 @@ class UserInterface:
         return s
     
     def login_user(self):
+        """login interface
+        """
         while True:
             username = self.__get_input("Enter Username")
             password = self.__get_input("Enter Password")
@@ -80,6 +82,8 @@ class UserInterface:
             break
         
     def enroll_user(self): 
+        """enroll user interface
+        """
         while True:
             print("Enrolling User")
             print("-------------------")
@@ -114,6 +118,8 @@ class UserInterface:
             print(f"Successfully enrolled user with username {username}")
     
     def perform_actions(self):
+        """Action performed when the user is signed in
+        """
         if not self.user:
             return
         
@@ -161,6 +167,8 @@ class UserInterface:
             print()
             
     def run(self):
+        """run method
+        """
         while True:
             s = self.__get_input("Would you like to Login (l) or Enroll (e)")
 
