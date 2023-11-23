@@ -1,4 +1,3 @@
-from src.implementation.accessControl import AccessControl
 from src.implementation.rbac.roles import Roles
 
 class User:
@@ -18,7 +17,7 @@ class User:
         self.name = name 
         self.email = email
         self.phone = phone
-        self.role = AccessControl.grant_role(role)
+        self.role = role
 
     def __repr__(self) -> str:
         """To string method to print the user

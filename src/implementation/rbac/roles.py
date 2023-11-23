@@ -13,6 +13,14 @@ class Roles(Enum):
     TECHNICAL_SUPPORT = "Technical_Support"
     TELLER = "Teller"
     
+    
+    @classmethod
+    def get_role(cls, role: 'Roles') -> Optional['Roles']:
+        for enum_member in cls:
+            if enum_member == role:
+                return enum_member
+        return None
+    
     @classmethod
     def to_string(cls) -> str:
         """return a string representation of all the roles to display

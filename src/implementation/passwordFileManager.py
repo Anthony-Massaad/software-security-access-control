@@ -12,27 +12,28 @@ from typing import Optional
 class PasswordFileManager:
     """Manages the password for the system
     """
-    # in regex, \d is any digit from 0 to 9, so match any numeric digit
-    # .*? indicates match any character before the specified statement
-    # Initial pattern for the password complexity requirements
-    # (?=.*[A-Z]) specifies at least 1 upper case letter
-    # (?=.*[a-z]) specifies at least 1 lower case letter
-    # (?=.*\d) specifies at least 1 numerical digit
-    # (?=.*[!@#$%?∗]) specifies at least one special character defined in the [...]
-    # (?!.*\s) indicates no white space included
-    # {8,12} indicates the password must be 8-12 length long inclusive
-    __password_pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%?∗])(?!.*\s).{8,12}$"
-    # List of prohibited formats (e.g., calendar dates, license plate numbers, phone numbers)
-    # .*?(?=\d{1,2}/\d{1,2}/\d{2,4}): This pattern matches dates in the format of "dd/mm/yyyy" or "d/m/yy." ignores anything before and after
-    # (?:[A-Z]{3,4}(?:-|)?[0-9]{3,4})|(?:[0-9]{3,4}(?:-|)?[A-Z]{3,4}): This pattern matches sequences that start with one to three uppercase letters followed by one to six digits.
-    # .*?(?=\d{10,11}): This pattern matches sequences of 10 or 11 consecutive digits
-    __prohibited_formats = [r".*?(?=\d{1,2}/\d{1,2}/\d{2,4})", r".*?(?=([A-Z]{3,4}[0-9]{3,4})|([0-9]{3,4}[A-Z]{3,4}))", r".*?(?=\d{10,11})"]
-    __common_passwords = ["PaASsword@1", "Qwerty#@123", "Qaz12!3wsx"]
+    def __init__(self):
+        # in regex, \d is any digit from 0 to 9, so match any numeric digit
+        # .*? indicates match any character before the specified statement
+        # Initial pattern for the password complexity requirements
+        # (?=.*[A-Z]) specifies at least 1 upper case letter
+        # (?=.*[a-z]) specifies at least 1 lower case letter
+        # (?=.*\d) specifies at least 1 numerical digit
+        # (?=.*[!@#$%?∗]) specifies at least one special character defined in the [...]
+        # (?!.*\s) indicates no white space included
+        # {8,12} indicates the password must be 8-12 length long inclusive
+        self.__password_pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%?∗])(?!.*\s).{8,12}$"
+        # List of prohibited formats (e.g., calendar dates, license plate numbers, phone numbers)
+        # .*?(?=\d{1,2}/\d{1,2}/\d{2,4}): This pattern matches dates in the format of "dd/mm/yyyy" or "d/m/yy." ignores anything before and after
+        # (?:[A-Z]{3,4}(?:-|)?[0-9]{3,4})|(?:[0-9]{3,4}(?:-|)?[A-Z]{3,4}): This pattern matches sequences that start with one to three uppercase letters followed by one to six digits.
+        # .*?(?=\d{10,11}): This pattern matches sequences of 10 or 11 consecutive digits
+        self.__prohibited_formats = [r".*?(?=\d{1,2}/\d{1,2}/\d{2,4})", r".*?(?=([A-Z]{3,4}[0-9]{3,4})|([0-9]{3,4}[A-Z]{3,4}))", r".*?(?=\d{10,11})"]
+        self.__common_passwords = ["PaASsword@1", "Qwerty#@123", "Qaz12!3wsx"]
+        
+        # __file_path = "/etc/passwd.txt"
+        self.__file_path = "passwd.txt"
     
-    # __file_path = "/etc/passwd.txt"
-    __file_path = "passwd.txt"
-    
-    def __hash_password(password: str, salt: str) -> str:
+    def __hash_password(self, password: str, salt: str) -> str:
         """Hash a password with a salt using sha256
 
         Args:
@@ -44,8 +45,7 @@ class PasswordFileManager:
         """
         return hashlib.sha256(f"{password}{salt}".encode('utf-8')).hexdigest()
 
-    @classmethod
-    def valid_password(cls, user_id: str, password: str) -> bool:
+    def valid_password(self, user_id: str, password: str) -> bool:
         """Validate the password to ensure it is plausible. It is plausible if the password:
         - is between 8-12 characters long
         - includes at least one upper case letter
@@ -64,14 +64,13 @@ class PasswordFileManager:
         Returns:
             bool: true if the password is valid, otherwise false
         """
-        is_common_password = any([bool(re.match(password, x, re.IGNORECASE)) for x in cls.__common_passwords]) # needs to be false
-        valid_pattern = bool(re.match(cls.__password_pattern, password)) # needs to be true
-        invalid_format = any([bool(re.match(x, password)) for x in cls.__prohibited_formats]) # needs to be false
+        is_common_password = any([bool(re.match(password, x, re.IGNORECASE)) for x in self.__common_passwords]) # needs to be false
+        valid_pattern = bool(re.match(self.__password_pattern, password)) # needs to be true
+        invalid_format = any([bool(re.match(x, password)) for x in self.__prohibited_formats]) # needs to be false
         eq_username_password = bool(re.match(f".*?(?={re.escape(user_id)})", password)) # needs to be false
         return valid_pattern and not invalid_format and not eq_username_password and not is_common_password
     
-    @classmethod
-    def is_unique_username(cls, username: str) -> bool:
+    def is_unique_username(self, username: str) -> bool:
         """Handler to ensure the username selected is unique
 
         Args:
@@ -80,9 +79,9 @@ class PasswordFileManager:
         Returns:
             bool: True if username is uniuque, otherwise False
         """
-        if os.path.exists(cls.__file_path):
+        if os.path.exists(self.__file_path):
             # check to see if the username/user_id already exists
-            with open(cls.__file_path, 'r') as pass_file:
+            with open(self.__file_path, 'r') as pass_file:
                 for data in pass_file:
                     split_data = data.split(" : ")
                     data_username = split_data[0] # the user_id/username
@@ -92,8 +91,7 @@ class PasswordFileManager:
         # username passed
         return True
     
-    @classmethod
-    def add_record(cls, username: str, role: str, name: str, email: str, phone: str, password: str) -> bool:
+    def add_record(self, username: str, role: str, name: str, email: str, phone: str, password: str) -> bool:
         """Add a user to the record of the system
 
         Args:
@@ -107,13 +105,13 @@ class PasswordFileManager:
         Returns:
             bool: true if successfully added the user to the record otherwise false.
         """
-        if not cls.valid_password(username, password):
+        if not self.valid_password(username, password):
             # password failed the check
             return False
         
-        if not os.path.exists(cls.__file_path):
+        if not os.path.exists(self.__file_path):
             # password File doesn't exist, create it
-            f = open(cls.__file_path, "x").close()
+            f = open(self.__file_path, "x").close()
         
        
         
@@ -121,19 +119,18 @@ class PasswordFileManager:
         salt = secrets.token_bytes(16)
         salt_string = base64.b64encode(salt).decode()
         # hash the password and generate a record template
-        hash_string = cls.__hash_password(password, salt_string)
+        hash_string = self.__hash_password(password, salt_string)
         record = f"{username} : {salt_string} : {hash_string} : {role} : {name} : {email} : {phone}"
 
         # add user record to the list of records
         # append user record to the record file
-        with open(cls.__file_path, 'a') as file:
+        with open(self.__file_path, 'a') as file:
             file.write(record + '\n')
 
         # successfully added record
         return True
     
-    @classmethod
-    def retrieve_record(cls, username: str, passowrd: str) -> Optional[User]:
+    def retrieve_record(self, username: str, passowrd: str) -> Optional[User]:
         """Retrieve a user from the record if they exists based on their unique user_id/username and password
 
         Args:
@@ -143,8 +140,8 @@ class PasswordFileManager:
         Returns:
             Optional[User]: a User if the user is found in the record, otherwise None
         """
-        if os.path.exists(cls.__file_path):
-            with open(cls.__file_path, 'r') as pass_file:
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r') as pass_file:
                 for data in pass_file:
                     # for each data in the file
                     split_data = data.split(" : ")
@@ -154,7 +151,7 @@ class PasswordFileManager:
                         # need to verify the password
                         data_salted_string = split_data[1] # retreive the salting that was applied
                         data_hash_pass = split_data[2] # retreived the actual hashed password
-                        expected_hash_pass = cls.__hash_password(passowrd, data_salted_string) # reproduce the hash
+                        expected_hash_pass = self.__hash_password(passowrd, data_salted_string) # reproduce the hash
                         if data_hash_pass == expected_hash_pass:
                             # user found
                             data_role = split_data[3]
