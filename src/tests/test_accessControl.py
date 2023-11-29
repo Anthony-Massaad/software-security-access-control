@@ -18,7 +18,7 @@ class TestAccessControl(unittest.TestCase):
         is_between_hours = True
         curr_time = datetime.now()
         curr_hour = curr_time.hour
-        if curr_hour < 9 or curr_hour > 16:
+        if curr_hour < 9 or curr_hour > 17:
             is_between_hours = False
         
         for role in Roles: 

@@ -90,7 +90,7 @@ class AccessControl:
             initial (bool, optional): True if the ABAC enforcement is on intial login. Defaults to False.
 
         Returns:
-            _type_: True if ABAC passed, otherwise False
+            bool: True if ABAC passed, otherwise False
         """
         if initial:
             # on sign in, enforce abac
@@ -98,7 +98,7 @@ class AccessControl:
                 curr_time = datetime.now()
                 curr_hour = curr_time.hour
                 # enforce time restriction to the teller between 9am-5pm
-                if curr_hour < 9 or curr_hour > 16:
+                if curr_hour < 9 or curr_hour > 17:
                     print("Hello fellow Teller, System hours is between 9am-5pm only. Thank you.")
                     return False
         return True
