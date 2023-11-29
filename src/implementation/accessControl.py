@@ -16,16 +16,14 @@ class AccessControl:
                 Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
                 Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW],
                 Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
-                Permissions.CLIENT_INFORMATION: [Actions.MODIFY],
-                Permissions.REQUEST_SUPPORT: [Actions.SPECIAL]
+                Permissions.CLIENT_INFORMATION: [Actions.MODIFY]
             },
             Roles.PREMIUM_CLIENT: {
                 Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
                 Permissions.INVESTMENT_PORTFOLIO: [Actions.VIEW, Actions.MODIFY],
                 Permissions.FINANCIAL_ADVISOR_CONTACT: [Actions.VIEW],
                 Permissions.FINANCIAL_PLANNER_CONTACT: [Actions.VIEW],
-                Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW],
-                Permissions.REQUEST_SUPPORT: [Actions.SPECIAL]
+                Permissions.INVESTMENT_ANALYST_CONTACT: [Actions.VIEW]
             },
             Roles.FINANCIAL_ADVISOR: {
                 Permissions.ACCOUNT_BALANCE: [Actions.VIEW],
@@ -84,7 +82,7 @@ class AccessControl:
         """
         return self.__access_control_matrix.get(role, {})
         
-    def enforce_ABAC(self, role: Roles, initial: bool = False):
+    def enforce_ABAC(self, role: Roles, initial: bool = False) -> bool:
         """Enforce the ABAC policy on a given role
 
         Args:
