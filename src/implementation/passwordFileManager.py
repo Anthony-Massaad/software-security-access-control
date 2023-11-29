@@ -15,23 +15,6 @@ class PasswordFileManager:
     def __init__(self):
         """default constructor
         """
-        # in regex, \d is any digit from 0 to 9, so match any numeric digit
-        # .*? indicates match any character before the specified statement
-        # Initial pattern for the password complexity requirements
-        # (?=.*[A-Z]) specifies at least 1 upper case letter
-        # (?=.*[a-z]) specifies at least 1 lower case letter
-        # (?=.*\d) specifies at least 1 numerical digit
-        # (?=.*[!@#$%?∗]) specifies at least one special character defined in the [...]
-        # (?!.*\s) indicates no white space included
-        # {8,12} indicates the password must be 8-12 length long inclusive
-        self.__password_pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%?∗])(?!.*\s).{8,12}$"
-        # List of prohibited formats (e.g., calendar dates, license plate numbers, phone numbers)
-        # .*?(?=\d{1,2}/\d{1,2}/\d{2,4}): This pattern matches dates in the format of "dd/mm/yyyy" or "d/m/yy." ignores anything before and after
-        # (?:[A-Z]{3,4}(?:-|)?[0-9]{3,4})|(?:[0-9]{3,4}(?:-|)?[A-Z]{3,4}): This pattern matches sequences that start with one to three uppercase letters followed by one to six digits.
-        # .*?(?=\d{10,11}): This pattern matches sequences of 10 or 11 consecutive digits
-        self.__prohibited_formats = [r".*?(?=\d{1,2}/\d{1,2}/\d{2,4})", r".*?(?=([A-Z]{3,4}[0-9]{3,4})|([0-9]{3,4}[A-Z]{3,4}))", r".*?(?=\d{10,11})"]
-        self.__common_passwords = ["PaASsword@1", "Qwerty#@123", "Qaz12!3wsx"]
-        
         # __file_path = "/etc/passwd.txt"
         self.__file_path = "passwd.txt"
     
@@ -46,31 +29,6 @@ class PasswordFileManager:
             str: the hex of the password+salt hashed
         """
         return hashlib.sha256(f"{password}{salt}".encode('utf-8')).hexdigest()
-
-    def valid_password(self, user_id: str, password: str) -> bool:
-        """Validate the password to ensure it is plausible. It is plausible if the password:
-        - is between 8-12 characters long
-        - includes at least one upper case letter
-        - includes at least one numeric digit
-        - includes one special character from the set {!, @, #, $, %, ?, ∗}
-        - does not match your username/user_id
-        - does not match a liscense plate
-        - does not match some date format (i.e., dd/mm/yyyy or d/m/yy)
-        - does not match a phone number
-        - the system does not consider the password to be weak
-
-        Args:
-            user_id (str): the unique user id (or username) of the user
-            password (str): the password of the user
-
-        Returns:
-            bool: true if the password is valid, otherwise false
-        """
-        is_common_password = any([bool(re.match(password, x, re.IGNORECASE)) for x in self.__common_passwords]) # needs to be false
-        valid_pattern = bool(re.match(self.__password_pattern, password)) # needs to be true
-        invalid_format = any([bool(re.match(x, password)) for x in self.__prohibited_formats]) # needs to be false
-        eq_username_password = bool(re.match(f".*?(?={re.escape(user_id)})", password)) # needs to be false
-        return valid_pattern and not invalid_format and not eq_username_password and not is_common_password
     
     def is_unique_username(self, username: str) -> bool:
         """Handler to ensure the username selected is unique
@@ -107,15 +65,14 @@ class PasswordFileManager:
         Returns:
             bool: true if successfully added the user to the record otherwise false.
         """
-        if not self.valid_password(username, password):
-            # password failed the check
-            return False
         
         if not os.path.exists(self.__file_path):
             # password File doesn't exist, create it
             f = open(self.__file_path, "x").close()
-        
-       
+
+        if not self.is_unique_username(username):
+            print("Username is already in use")
+            return False
         
         # generate a salt to apply the password of 16 bytes
         salt = secrets.token_bytes(16)
