@@ -8,7 +8,10 @@ class TestPasswordFileManager(unittest.TestCase):
     def setUp(self) -> None:
         self.usernames = ["Tony", "Anthony", "Max", "Bardi"]
         self.passwords = ["Hd2332@@3", "PassS21@", "jdDs211#", "mMna!232"]
-        self.roles = [Roles.TELLER.value, Roles.COMPLIANCE_OFFICER.value, Roles.FINANCIAL_PLANNER.value, Roles.REGULAR_CLIENT.value]
+        self.roles = [Roles.TELLER.value, 
+                      Roles.COMPLIANCE_OFFICER.value, 
+                      Roles.FINANCIAL_PLANNER.value, 
+                      Roles.REGULAR_CLIENT.value]
     
     def test_add_record(self):
         # remove the add record password file before making a new one 
