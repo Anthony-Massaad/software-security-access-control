@@ -25,5 +25,4 @@ class User:
         Returns:
             str: to string of User
         """
-        s = 'User:\n username: ' + self.username + " | name: " + self.name + "\n" + "email: " + self.email + " | phone: " + self.phone
-        return s
+        return f"username: {self.username}, name: {self.name}, email: {self.email}, phone: {self.phone}, role: {self.role.value}"

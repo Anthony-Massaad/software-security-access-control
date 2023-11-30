@@ -13,7 +13,7 @@ class UserInterface:
     
     def __init__(self):
         self.access_control = AccessControl()
-        self.password_file_manager = PasswordFileManager()
+        self.password_file_manager = PasswordFileManager("passwd.txt")
         self.user: Union[User, None] = None
         # in regex, \d is any digit from 0 to 9, so match any numeric digit
         # .*? indicates match any character before the specified statement

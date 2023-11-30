@@ -12,11 +12,11 @@ from typing import Optional
 class PasswordFileManager:
     """Manages the password for the system
     """
-    def __init__(self):
+    def __init__(self, password_file_ref: str):
         """default constructor
         """
         # __file_path = "/etc/passwd.txt"
-        self.__file_path = "passwd.txt"
+        self.__file_path = password_file_ref
     
     def __hash_password(self, password: str, salt: str) -> str:
         """Hash a password with a salt using sha256
