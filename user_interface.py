@@ -27,7 +27,8 @@ class UserInterface:
         self.__password_pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%?∗])(?!.*\s).{8,12}$"
         # List of prohibited formats (e.g., calendar dates, license plate numbers, phone numbers)
         # .*?(?=\d{1,2}/\d{1,2}/\d{2,4}): This pattern matches dates in the format of "dd/mm/yyyy" or "d/m/yy." ignores anything before and after
-        # (?:[A-Z]{3,4}(?:-|)?[0-9]{3,4})|(?:[0-9]{3,4}(?:-|)?[A-Z]{3,4}): This pattern matches sequences that start with one to three uppercase letters followed by one to six digits.
+        # (?:[A-Z]{3,4}(?:-|)?[0-9]{3,4})|(?:[0-9]{3,4}(?:-|)?[A-Z]{3,4}): This pattern matches sequences that start with one to 
+        # three uppercase letters followed by one to six digits.
         # .*?(?=\d{10,11}): This pattern matches sequences of 10 or 11 consecutive digits
         self.__prohibited_formats = [r".*?(?=\d{1,2}/\d{1,2}/\d{2,4})", r".*?(?=([A-Z]{3,4}[0-9]{3,4})|([0-9]{3,4}[A-Z]{3,4}))", r".*?(?=\d{10,11})"]
         self.__common_passwords = ["PaASsword@1", "Qwerty#@123", "Qaz12!3wsx"]
