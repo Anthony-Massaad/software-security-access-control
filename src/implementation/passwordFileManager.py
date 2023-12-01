@@ -2,7 +2,6 @@ import hashlib
 import secrets
 import base64
 import os
-import re
 from src.implementation.user import User
 from src.implementation.rbac.roles import Roles
 from typing import Optional
