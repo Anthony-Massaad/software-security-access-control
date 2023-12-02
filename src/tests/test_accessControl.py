@@ -42,6 +42,7 @@ class TestAccessControl(unittest.TestCase):
         print("-----------------------")
         print("Testing access_control_policy(...)")
         for role in Roles:
+            print()
             for permission in Permissions:
                 for action in Actions:
                     perms = self.ac.get_permissions(role)
