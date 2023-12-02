@@ -114,7 +114,7 @@ class UserInterface:
             self.user = self.password_file_manager.retrieve_record(username, password)
             
             if self.user:
-                if not self.access_control.enforce_ABAC(self.user.role):
+                if not self.access_control.enforce_ABAC(self.user.role, initial=True):
                     # enforce initial abac on user
                     continue
                 print("Successful Log in\n")
@@ -166,6 +166,7 @@ class UserInterface:
         """Action performed when the user is signed in
         """
         if not self.user:
+            print("[ERROR] No user signed to perform action")
             return
         
         print("---------------------------")
@@ -225,7 +226,12 @@ class UserInterface:
                 print("Invalid option")
             
             # signed in
-            self.perform_actions()
-
+            if self.user:
+                self.perform_actions()
+            else:
+                print("[ERROR] No user signed in passed login user")
+                sys.exit(1)
+                
+  
 if __name__ == "__main__":
     UserInterface().run()
