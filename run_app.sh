@@ -6,6 +6,6 @@ elif command -v python &> /dev/null; then
     echo "Using Python 2"
     python user_interface.py
 else
-    echo "Error: Python not found. Please install Python version 3.8 or > to run the tests."
+    echo "Error: Python not found. Please install Python version 3.8 or > to run the app"
     exit 1
 fi
